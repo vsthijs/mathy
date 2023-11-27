@@ -2,11 +2,12 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "raylib.h"
 
 /*
-TODO: implement AssetManager in assets.cpp
+TODO: test texture loading
 */
 
 /// <summary>
@@ -18,22 +19,13 @@ class AssetManager {
     ~AssetManager();
 
     /// <summary>
-    /// Load a texture on-demand
+    /// Load a texture.
     /// </summary>
     /// <param name="path">relative path to the texture</param>
     Texture2D require_texture(std::string path);
-
-    /// <summary>
-    /// Load an entire animation
-    /// </summary>
-    /// <param name="prefix">The path to the assets.</param>
-    /// <param name="r_begin">The begin of the range</param>
-    /// <param name="r_end">The end of the range</param>
-    /// <returns>A vector of textures</returns>
-    std::vector<Texture2D> require_animation(std::string prefix, size_t r_begin, size_t r_end);
+    std::vector<Texture2D> require_textures(std::vector<std::string> paths);
 
   private:
-    std::vector<Texture2D> p_textures;
-    std::vector<std::string> p_texture_paths;
     std::string p_base_path;
+    std::map<std::string, Texture2D> p_texture_cache;
 };

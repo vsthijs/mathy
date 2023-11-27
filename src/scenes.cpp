@@ -17,7 +17,10 @@ Scene *SceneManager::get_current_scene() {
     return this->scenes[this->curr_scene];
 }
 
-size_t SceneManager::add_scene(Scene *scene) { this->scenes.push_back(scene); }
+size_t SceneManager::add_scene(Scene *scene) {
+    this->scenes.push_back(scene);
+    return this->scenes.size() - 1;
+}
 
 void SceneManager::load_scene(size_t index) {
     this->next_scene = index;

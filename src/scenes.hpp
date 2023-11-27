@@ -4,6 +4,8 @@
 
 class SceneManager;
 
+// TODO: Test Scene and SceneManager
+
 /// <summary>
 /// Base class for all scenes.
 /// 
