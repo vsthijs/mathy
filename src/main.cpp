@@ -3,8 +3,8 @@
 #include "raylib.h"
 #include <iostream>
 
-int playerX = 450;
-int playerY = 300;
+int playerX = 0;
+int playerY = 0;
 unsigned int playerSize = 50;
 int mouseX, mouseY;
 
@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
         BeginDrawing();
             ClearBackground(WHITE);
             DrawFPS(10, 10);
-            DrawTextureEx(assets.require_texture("0.png"),
+            DrawTextureEx(assets.require_texture("player_front.png"),
                           Vector2{(float)playerX, (float)playerY}, 0, playerSize / 10, WHITE);
         EndDrawing();
     }
