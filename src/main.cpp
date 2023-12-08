@@ -12,12 +12,13 @@ int main(int argc, char** argv) {
     Window win{"mathy", 900, 600};
     AssetManager assets{ASSETS_PATH};
 
-    // SetTargetFPS(60);
+    SetTargetFPS(60);
     SetExitKey(KEY_Q);
 
     while (!WindowShouldClose()) {
         if (IsKeyDown(KEY_W)) playerSize += 1.0f;
         if (IsKeyDown(KEY_S)) playerSize -= 1.0f;
+        if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
         {
             playerX = GetMouseX();
             playerY = GetMouseY();
