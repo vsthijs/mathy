@@ -3,15 +3,15 @@
 #include "raylib.h"
 #include <iostream>
 
-const int playerX = 450;
-const int playerY = 300;
+int playerX = 450;
+int playerY = 300;
 unsigned int playerSize = 50;
 int mouseX, mouseY;
 
 int main(int argc, char** argv) {
     Window win{"mathy", 900, 600};
-    // SetTargetFPS(60);
-    SetExitKey(KEY_Q);
+    AssetManager assets{ASSETS_PATH};
+
     // SetTargetFPS(60);
     SetExitKey(KEY_Q);
 
@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
             ClearBackground(WHITE);
             DrawFPS(10, 10);
             DrawTextureEx(assets.require_texture("0.png"),
-                          Vector2{playerX, playerY}, 0, playerSize / 10, WHITE);
+                          Vector2{(float)playerX, (float)playerY}, 0, playerSize / 10, WHITE);
         EndDrawing();
     }
 
