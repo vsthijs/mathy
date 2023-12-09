@@ -11,13 +11,29 @@ struct Player
     float x, y;
     int width, height;
 
+    Rectangle player = {x, y, width, height};
+
     void Draw()
     {
-        DrawRectangle(x, y, width, height, BLUE);
+        DrawRectangleRec(player, BLUE);
+    }
+};
+
+struct Wizard
+{
+    float x, y;
+    int width, height;
+
+    Rectangle wizard = {x, y, width, height};
+
+    void Draw()
+    {
+        DrawRectangleRec(wizard, RED);
     }
 };
 
 int main(int argc, char** argv) {
+    //setup
     Window win{"mathy", 900, 600};
     AssetManager assets{ASSETS_PATH};
     InitAudioDevice();
@@ -33,9 +49,17 @@ int main(int argc, char** argv) {
     player.width = 60;
     player.height = 100;
 
+    //setting Wizard variables
+    Wizard wizard;
+    wizard.x = 200;
+    wizard.y = 300;
+    wizard.width = 70;
+    wizard.height = 90;
+
     SetTargetFPS(60);
     SetExitKey(KEY_Q);
 
+    //game loop
     while (!WindowShouldClose()) {
         //code for the movement player
         if (IsKeyDown(KEY_W)) player.y -= 2.0f; //going up
@@ -52,8 +76,8 @@ int main(int argc, char** argv) {
         BeginDrawing();
             ClearBackground(WHITE);
             DrawFPS(10, 10);
-            player.Draw();
-            DrawRectangle(200, 300, 70, 90, RED); //drawing the quest giver
+            player.Draw(); //drawing the player
+            wizard.Draw(); //drawing the wizard
             //DrawTextureEx(assets.require_texture("player_front.png"),
             //              Vector2{(float)playerX, (float)playerY}, 0, playerSize / 10, WHITE);
         EndDrawing();
