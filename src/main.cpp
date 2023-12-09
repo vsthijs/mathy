@@ -20,6 +20,11 @@ struct Player
 int main(int argc, char** argv) {
     Window win{"mathy", 900, 600};
     AssetManager assets{ASSETS_PATH};
+    InitAudioDevice();
+
+    //load
+    //TODO ervoor zorgen dat je ook audio in de game kan doen
+    Sound backgroundmusic = LoadSound("background_music.wav");
 
     //setting player variables
     Player player;
@@ -38,6 +43,11 @@ int main(int argc, char** argv) {
         if (IsKeyDown(KEY_A)) player.x -= 2.0f; //moving left
         if (IsKeyDown(KEY_D)) player.x += 2.0f; //moving right
 
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            PlaySound(backgroundmusic);
+        }
+
 
         BeginDrawing();
             ClearBackground(WHITE);
@@ -49,5 +59,9 @@ int main(int argc, char** argv) {
         EndDrawing();
     }
 
+    //unload
+    UnloadSound(backgroundmusic);
+
+    CloseAudioDevice();
     return 0;
 }
