@@ -26,3 +26,7 @@ AssetManager::require_textures(std::vector<std::string> paths) {
     }
     return textures;
 }
+
+Sound AssetManager::require_sound(std::string path) {
+    return LoadSound((this->p_base_path + path).c_str());
+}
