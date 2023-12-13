@@ -80,7 +80,8 @@ int main(int argc, char** argv) {
             player.x += player.speed * deltatime; // moving right
         }
 
-        if (IsKeyPressed(KEY_SPACE))
+        // looping background music
+        if (!IsSoundPlaying(backgroundmusic))
         {
             PlaySound(backgroundmusic);
         }
