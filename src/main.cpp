@@ -6,6 +6,10 @@
 // unsigned int playerSize = 50;
 // int mouseX, mouseY;
 
+// before raylib setup
+Window win{"mathy", 900, 600};
+AssetManager assets{ASSETS_PATH};
+
 struct Player
 {
     float x, y;
@@ -31,10 +35,20 @@ struct Wizard
     }
 };
 
+struct Start_button
+{
+    float x, y;
+    int scale;
+
+    void Draw()
+    {
+        DrawTextureEx(assets.require_texture("start_button.png"),
+                      Vector2{(float)x, (float)y}, 0, scale, WHITE);
+    }
+};
+
 int main(int argc, char** argv) {
-    //setup
-    Window win{"mathy", 900, 600};
-    AssetManager assets{ASSETS_PATH};
+    //with raylib setup
     InitAudioDevice();
 
     // load
@@ -54,6 +68,13 @@ int main(int argc, char** argv) {
     wizard.y = 300;
     wizard.width = 70;
     wizard.height = 90;
+
+    // setting Start button variables
+    Start_button start_button;
+    start_button.scale = 10;
+    start_button.x = 450 - ((start_button.scale * 32) / 2);
+    start_button.y = 300 - ((start_button.scale * 32) / 2);
+
 
     //SetTargetFPS(60);
     SetExitKey(KEY_Q);
@@ -81,7 +102,7 @@ int main(int argc, char** argv) {
         }
 
         // looping background music
-        if (!IsSoundPlaying(backgroundmusic))
+        if (!IsSoundPlaying(backgroundmusic) && IsWindowReady())
         {
             PlaySound(backgroundmusic);
         }
@@ -90,8 +111,9 @@ int main(int argc, char** argv) {
         BeginDrawing();
             ClearBackground(WHITE);
             DrawFPS(10, 10);
-            player.Draw(); // drawing the player
-            wizard.Draw(); // drawing the wizard
+            start_button.Draw();
+            //player.Draw(); // drawing the player
+            //wizard.Draw(); // drawing the wizard
             // DrawTextureEx(assets.require_texture("player_front.png"),
             //              Vector2{(float)playerX, (float)playerY}, 0, playerSize / 10, WHITE);
         EndDrawing();
