@@ -7,43 +7,41 @@
 // int mouseX, mouseY;
 
 // before raylib setup
+float screenWidth = 900;
+float screenHeight = 600;
 Window win{"mathy", 900, 600};
 AssetManager assets{ASSETS_PATH};
 
 struct Player
 {
-    float x, y;
+    int x, y;
     int width, height;
-    float speed;
+    int speed;
+    Color color;
 
     void Draw()
     {
-        DrawRectangle(x, y, width, height, BLUE);
-    }
-};
-
-struct Wizard
-{
-    float x, y;
-    int width, height;
-
-    Rectangle wizard = {x, y, (float)width, (float)height};
-
-    void Draw()
-    {
-        DrawRectangleRec(wizard, RED);
+        DrawRectangle(x, y, width, height, color);
     }
 };
 
 struct Start_button
 {
-    float x, y;
+    Texture texture = assets.require_texture("start_button.png");
+    int x, y;
     int scale;
+    Rectangle hitbox = {450, 300, (float)texture.width * 10, (float)texture.height * 10};
 
     void Draw()
     {
         DrawTextureEx(assets.require_texture("start_button.png"),
-                      Vector2{(float)x, (float)y}, 0, scale, WHITE);
+                      Vector2{(float)x, (float)y}, 0, (float)scale, WHITE);
+    }
+
+    Player player;
+    void Clicked()
+    {
+        std::cout << "button is clicked";
     }
 };
 
@@ -60,20 +58,16 @@ int main(int argc, char** argv) {
     player.y = 300;
     player.width = 60;
     player.height = 100;
-    player.speed = 200.0f;
-
-    // setting Wizard variables
-    Wizard wizard;
-    wizard.x = 200;
-    wizard.y = 300;
-    wizard.width = 70;
-    wizard.height = 90;
+    player.speed = 200;
+    player.color = BLUE;
 
     // setting Start button variables
     Start_button start_button;
     start_button.scale = 10;
     start_button.x = 450 - ((start_button.scale * 32) / 2);
     start_button.y = 300 - ((start_button.scale * 32) / 2);
+
+    Vector2 mousePosition;
 
 
     //SetTargetFPS(60);
@@ -84,21 +78,24 @@ int main(int argc, char** argv) {
         // TODO: gebruik dit om te bewegen, net als met Unity's deltaTime.
         float deltatime = GetFrameTime();
 
+        //get de cordinates of the mouse so you can use it for buttonm clicks
+        mousePosition = GetMousePosition();
+
         if (IsKeyDown(KEY_W))
         {
-            player.y -= player.speed * deltatime; // moving up
+            player.y -= (float) player.speed * deltatime; // moving up
         } 
         else if (IsKeyDown(KEY_S))
         {
-            player.y += player.speed * deltatime; // moving down
+            player.y += (float) player.speed * deltatime; // moving down
         } 
         else if (IsKeyDown(KEY_A))
         {
-            player.x -= player.speed * deltatime; // moving left
+            player.x -= (float) player.speed * deltatime; // moving left
         }
         else if (IsKeyDown(KEY_D))
         {
-            player.x += player.speed * deltatime; // moving right
+            player.x += (float) player.speed * deltatime; // moving right
         }
 
         // looping background music
@@ -107,10 +104,19 @@ int main(int argc, char** argv) {
             PlaySound(backgroundmusic);
         }
 
+        //clicking start_button reaction
+        if (CheckCollisionPointRec(mousePosition, start_button.hitbox))
+        {
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+            {
+                start_button.Clicked();
+            }
+        }
 
         BeginDrawing();
             ClearBackground(WHITE);
             DrawFPS(10, 10);
+            DrawRectangleRec(start_button.hitbox, RED);
             start_button.Draw();
             //player.Draw(); // drawing the player
             //wizard.Draw(); // drawing the wizard
